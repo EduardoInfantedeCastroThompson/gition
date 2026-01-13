@@ -125,10 +125,18 @@ async def create_branch_page(
         
         # Create page
         page_id = str(uuid.uuid4())
-        metadata = json.dumps({
+        
+        metadata_dict = {
             "created_from_branch": True,
-            "branch_exists": True
-        })
+            "branch_exists": True,
+            "icon_exists": False
+        }
+        
+        if icon_exists:
+            metadata_dict["icon"] = icon
+            metadata_dict["icon_exists"] = True
+        
+        metadata = json.dumps(metadata_dict)
         
         await database.execute(
             """INSERT INTO branch_pages 
